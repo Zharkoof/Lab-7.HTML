@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Жарков</title>
+<script type = "text/javascript">
+
+function checkEmp(field)
+{
+label=document.getElementById(field.id+"s");
+return field.value.length ==0;
+}
+
+function isLonger(field,leng)
+{
+return field.value.length >leng;
+}
+
+function containsDigigits(field)
+{
+var dig = "0123456789";
+for (var i=0; i<dig.length; i++)
+{
+if (field.value.indexOf(dig[i])!=-1)
+{
+return true;
+}
+}
+return false;
+}
+
+function notContDig(field)
+{
+var dig = "0123456789";
+for (var i=0; i<field.value.length; i++)
+{
+if (dig.indexOf(field.value[i])==-1)
+{
+return true;
+}
+}
+return false;
+}
+
+function checkName(field)
+{
+label=document.getElementById(field.id+"s");
+if (isLonger(field,20))
+{
+disable();
+label.innerHTML ="Введено более 20 символов!";
+}
+else if (checkEmp(field))
+{
+disable();
+label.innerHTML = "Поле не заполнено!";
+}
+else if (containsDigigits(field))
+{
+disable();
+label.innerHTML ="Поле не может содержать цифры!"
+}
+else
+{
+enable();
+label.innerHTML ="";
+}
+}
+
+function isLong(field,leng)
+{
+return field.value.length ==leng;
+}
+
+
+
+function isCorrEmail(field)
+{
+var emReg =/^\w+@\w+\.\w{2,4}$/;
+return emReg.test(field.value);
+}
+
+function checkEmail(field)
+{
+label=document.getElementById(field.id+"s");
+if(checkEmp(field))
+{
+label.innerHTML = "Поле не заполнено!";
+}
+else if (!isCorrEmail(field))
+{
+disable();
+label.innerHTML ="E-mail некорректен!"
+}
+else
+{
+enable();
+label.innerHTML ="";
+}
+}
+
+function isCorrPhone(field)
+{
+var trli = false;
+var telReg1 =/^8-\d{3}-\d{3}-\d{2}-\d{2}$/;
+var telReg2 =/^\+7-\d{3}-\d{3}-\d{2}-\d{2}$/;
+var telReg3 =/^8\d{10}$/;
+var telReg4 =/^\+7\d{10}$/;
+if (telReg1.test(field.value))
+{
+trli = true;
+}
+else if (telReg2.test(field.value))
+{
+trli = true;
+}
+else if (telReg3.test(field.value))
+{
+trli = true;
+}
+else if (telReg4.test(field.value))
+{
+trli = true;
+}
+
+return trli;
+}
+
+function checkPhone(field)
+{
+label=document.getElementById(field.id+"s");
+if(checkEmp(field))
+{
+label.innerHTML = "Поле не заполнено!";
+}
+else if (!isCorrPhone(field))
+{
+disable();
+label.innerHTML ="Телефон некорректен!"
+}
+else
+{
+enable();
+label.innerHTML ="";
+}
+}
+
+function isCorrDate(field)
+{
+var dataReg=/^\d{2}(\/|\.)\d{2}(\/|\.)\d{4}$/;
+var dataReg=/^\d{2}(\/|\.)\d{2}(\/|\.)\d{2}$/;
+return dataReg.test(field.value);
+}
+
+function isCorrDateVal(field)
+{
+var dd=parseInt(field.value.substring(0,2));
+var mm=parseInt(field.value.substring(3,5));
+var daysInM;
+switch(mm)
+{
+case 01:daysInM=31;break;
+case 02:daysInM=28;break;
+case 03:daysInM=31;break;
+case 04:daysInM=30;break;
+case 05:daysInM=31;break;
+case 06:daysInM=30;break;
+case 07:daysInM=31;break;
+case 08:daysInM=31;break;
+case 09:daysInM=30;break;
+case 10:daysInM=31;break;
+case 11:daysInM=30;break;
+case 12:daysInM=31;break;
+default: alert("неверное значение месяца");break;
+}
+return 1<=dd && dd<=daysInM && 1<=mm && mm<=12;
+}
+
+function checkDate(field)
+{
+label=document.getElementById(field.id+"s");
+if(checkEmp(field))
+{
+disable();
+label.innerHTML = "Поле не заполнено!";
+}
+else if (!isCorrDate(field))
+{
+disable();
+label.innerHTML ="Некорректно введена дата!"
+}
+else if (!isCorrDateVal(field))
+{
+disable();
+label.innerHTML ="Некорректно введено число!"
+}else
+{
+enable();
+label.innerHTML ="";
+}
+}
+
+function record(fName,sName,email,telep,bDate)
+{
+
+this.fName=fName;
+this.sName=sName;
+this.email=email;
+this.telep=telep;
+this.bDate=bDate;
+
+}
+
+var records = [
+
+
+];
+
+function create(idParent, name, attributes )
+{
+var el = document.createElement( name );
+if ( typeof attributes == 'object' )
+{
+for ( var i in attributes )
+{
+el.setAttribute( i, attributes[i] );
+if ( i.toLowerCase() == 'class' )
+{
+el.className = attributes[i];
+}
+else if ( i.toLowerCase() == 'style' )
+{
+el.style.cssText = attributes[i];
+}
+}
+}
+for ( var i = 3;i < arguments.length; i++ )
+{
+var val = arguments[i];
+if ( typeof val == 'string' )
+{
+val = document.createTextNode( val )
+};
+el.appendChild( val );
+}document.getElementById(idParent).appendChild(el);
+return el;
+}
+var dop="k";
+
+function dispTab()
+{
+create("recing","table",{id:"tab"});
+create("tab","tr",{id:"str"});
+create("str","td",{},"№");
+create("str","td",{},"Фамилия");
+create("str","td",{},"Имя");
+create("str","td",{},"Дата рождения");
+
+create("str","td",{},"Телефон");
+create("str","td",{},"E-mail");
+}
+
+function displayRecords()
+{
+dispTab();
+var t=1;
+var odd = true;
+for (var i in records)
+{
+if (odd)
+{
+create("tab","tr",{id: dop+i,style:'background-color:#FFDAB9'});
+}
+else
+{
+create("tab","tr",{id: dop+i,style:'background-color:#FFDAB9'});
+}
+create(dop+i,"td",{},""+t);
+create(dop+i,"td",{},records[i].sName);
+create(dop+i,"td",{},records[i].fName);
+create(dop+i,"td",{},records[i].bDate);
+
+create(dop+i,"td",{},records[i].telep);
+create(dop+i,"td",{},records[i].email);
+odd=!odd;
+t++;
+}
+
+}
+
+function publication()
+{
+const wall = document.getElementById("tab");
+while (wall.firstChild)
+{
+wall.removeChild(wall.firstChild);
+}
+var fn=document.getElementById("fName").value;
+var sn=document.getElementById("sName").value;
+var em=document.getElementById("email").value;
+var te=document.getElementById("teleph").value;
+var bd=document.getElementById("bDay").value;
+var rec = new record(fn,sn,em,te,bd);
+records.push(rec);
+dop+="k";
+displayRecords();
+
+}
+
+
+
+function enable()
+{
+document.getElementById("send").disabled = false;
+}
+
+function disable()
+{
+document.getElementById("send").disabled = true;
+}
+
+function checkAll()
+{
+checkName(document.getElementById("fName"));
+checkName(document.getElementById("sName"));
+checkEmail(document.getElementById("email"));
+checkPhone(document.getElementById("teleph"));
+checkDate(document.getElementById("bDay"));
+}
+
+</script>
+
+
+</head>
+<body onload="disable(),displayRecords()">
+
+<div id="inpSec">
+Имя: <input type="text" id="fName" onkeyup="checkAll()" onblur="checkAll()"/><span id="fNames"></span><br>
+Фамилия: <input type="text" id="sName" onkeyup="checkAll()" onblur="checkAll()"/><span id="sNames"></span><br>
+E-mail: <input type="text" id="email" onkeyup="checkAll()" onblur="checkAll()"/><span id="emails"></span><br>
+Телефон: <input type="text" id="teleph" onkeyup="checkAll()" onblur="checkAll()"/><span id="telephs"></span><br>
+Дата рождения: <input type="text" id="bDay" onkeyup="checkAll()" onblur="checkAll()"/><span id="bDays"></span><br>
+</div>
+
+<div id="toolbar">
+<input type ="button" value = "добавить запись" id="send" onclick="publication()" />
+
+
+</div>
+
+<div id="recing">
+</div>
+
+</body>
+</html>
